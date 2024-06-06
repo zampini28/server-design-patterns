@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+# This script is used to build the java project.
+
+# Find all the java files in the src folder.
+find . -name "*.java" > sources;
+
+# Compile the java project.
+javac -Xlint:unchecked -d bin -cp "lib/*" @sources;
+
+# Remove the sources file.
+rm sources;
+
+# Run the java project.
+java -cp "bin:lib/*" Main;
