@@ -1,27 +1,41 @@
 package spaceplus;
 
 import spaceplus.configuration.ParseWebXML;
+import spaceplus.configuration.ParsePublicXML;
 import java.net.InetSocketAddress;
 
 public class ServerFacade implements Runnable {
-    private int port;
+    private final InetSocketAddress address;
     
     public ServerFacade(int port) {
-        this.port = port;
+        address = new InetSocketAddress(port);
     }
     
     @Override
     public void run() {
         try {
-            var parser = new ParseWebXML();
-            var thread = new Thread(parser);
-            thread.start();
+            var parserWeb = new ParseWebXML();
+            var parserPublic = new ParsePublicXML();
+            var threadWeb = new Thread(parserWeb);
+            var threadPublic = new Thread(parserPublic);
+            threadPublic.start();
+            threadWeb.start();
 
-            var address = new InetSocketAddress(port);
             var server = new Server(address);
 
-            thread.join();
-            parser.execute(server::addHandler);
+            threadWeb.join();
+            threadPublic.join();
+
+            parserWeb.execute(server::addHandler);
+            parserPublic.execute(server::makeStatic);
+
+            parserPublic.execute((item) -> {
+                System.out.println("static link: " + item);
+            });
+
+            parserWeb.execute((key, value) -> {
+                System.out.println("key: " + key + " value: " + value);
+            });
 
             new Thread(server).start();
         } catch (Exception e) {

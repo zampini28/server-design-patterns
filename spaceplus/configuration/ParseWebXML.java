@@ -13,9 +13,7 @@ public class ParseWebXML implements Runnable {
     private final String filename;
     private final Map<String, HttpHandler> map = new HashMap<>();
 
-    public ParseWebXML() {
-        this("");
-    }
+    public ParseWebXML() { this(""); }
     public ParseWebXML(String pathname) {
         filename = pathname + "web.xml";
     }
@@ -23,10 +21,14 @@ public class ParseWebXML implements Runnable {
     @Override
     public void run() {
         try {
-            var doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(filename);
+            var factory = DocumentBuilderFactory.newInstance();
+            var builder = factory.newDocumentBuilder();
+            var doc = builder.parse(filename);
+
             doc.getDocumentElement().normalize();
 
-            var nodelist = doc.getElementsByTagName("server");
+            var root = doc.getDocumentElement();
+            var nodelist = root.getElementsByTagName("mapping-server");
 
             for (int i = 0; i < nodelist.getLength(); i++) 
             {
@@ -35,7 +37,6 @@ public class ParseWebXML implements Runnable {
 
                 var url = element.getElementsByTagName("url-pattern").item(0).getTextContent();
                 var classname = element.getElementsByTagName("class-name").item(0).getTextContent();
-                System.out.println(url + " " + classname);
 
                 var instance = (HttpHandler) Class.forName(classname).getDeclaredConstructor().newInstance();
                 map.put(url, instance);

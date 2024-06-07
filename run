@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+# This script is used to run the java project.
+
+# Print command and stops on error
+set -ex
+
+# Run the java project.
+java -cp "bin:lib/*" Main 2389;

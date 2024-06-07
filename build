@@ -2,6 +2,13 @@
 
 # This script is used to build the java project.
 
+rm -r bin spaceplus/jsp;
+
+mkdir spaceplus/jsp;
+
+# Print command and stops on error
+set -ex
+
 # Find all the java files in the src folder.
 find . -name "*.java" > sources;
 
@@ -11,5 +18,5 @@ javac -Xlint:unchecked -d bin -cp "lib/*" @sources;
 # Remove the sources file.
 rm sources;
 
-# Run the java project.
-java -cp "bin:lib/*" Main;
+# Extra
+cp spaceplus/http/LocalStrings.properties bin/spaceplus/http/LocalStrings.properties;

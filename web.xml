@@ -1,41 +1,11 @@
 <server>
     <mapping-server>
-        <url-pattern>/browser</url-pattern>
-        <class-name>spaceplus.view.Browser</class-name>
-    </mapping-server>
-
-    <mapping-server>
-        <url-pattern>/create</url-pattern>
-        <class-name>spaceplus.view.Create</class-name>
-    </mapping-server>
-
-    <mapping-server>
         <url-pattern>/home</url-pattern>
         <class-name>spaceplus.view.Home</class-name>
     </mapping-server>
 
     <mapping-server>
         <url-pattern>/login</url-pattern>
-        <class-name>spaceplus.view.login</class-name>
-    </mapping-server>
-
-    <mapping-server>
-        <url-pattern>/remove</url-pattern>
-        <class-name>spaceplus.view.Remove</class-name>
-    </mapping-server>
-    
-    <mapping-server>
-        <url-pattern>/signup</url-pattern>
-        <class-name>spaceplus.view.Signup</class-name>
-    </mapping-server>
-
-    <mapping-server>
-        <url-pattern>/update</url-pattern>
-        <class-name>spaceplus.view.Update</class-name>
-    </mapping-server>
-
-    <mapping-server>
-        <url-pattern>/view</url-pattern>
-        <class-name>spaceplus.view.View</class-name>
+        <class-name>spaceplus.view.Login</class-name>
     </mapping-server>
 </server>

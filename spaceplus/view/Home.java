@@ -4,24 +4,32 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import spaceplus.model.dto.Film;
-import spaceplus.controller.ControllerFilm;
-import spaceplus.pages.JSPFacade;
-import spaceplus.Handler;
+import spaceplus.http.HttpWorker;
+import spaceplus.http.HttpRequest;
+import spaceplus.http.HttpResponse;
 
-import com.sun.net.httpserver.HttpExchange;
+public class Home extends HttpWorker {
 
-public class Home extends Handler {
-  public void doGet(HttpExchange exchange) {
-    List<Film> films = new ControllerFilm().selectRandom();
-    exchange.setAttribute("films", films);
-    new JSPFacade("/home/home.jsp").dispatch();
-  }
+  @Override
+  public void doGet(HttpRequest request, HttpResponse response) {
+      try {
+          response.setContentType("text/html");
+          response.setCharacterEncoding("UTF-8");
 
-  public void doPost(HttpExchange exchange) {
-    List<Film> films = new ControllerFilm().selectRandom();
-    exchange.setAttribute("films", films);
-    new JSPFacade("/home/home.jsp").dispatch();
+          List<String> list = new ArrayList<>();
+
+          list.add("eu");
+          list.add("sou");
+          list.add("muito");
+          list.add("foda!");
+
+          request.setAttribute("text", list);
+
+          request.getRequestDispatcher("/home/home.jsp").forward(request, response);
+      } catch (Exception e) {
+          throw new RuntimeException(e);
+      }
   }
 }
